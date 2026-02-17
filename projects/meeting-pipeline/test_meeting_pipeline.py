@@ -439,3 +439,346 @@ class TestTaskListGenerator(unittest.TestCase):
         meeting = Meeting(
             title="Test Meeting",
             date=datetime(2026, 2, 17),
+            action_items=[
+                ActionItem(description="Task 1"),
+                ActionItem(description="Task 2", completed=True),
+                ActionItem(description="Task 3", completed=True),
+            ],
+            decisions=[Decision(description="Decision 1")]
+        )
+        
+        output_path = Path(self.temp_dir) / "tasks.md"
+        self.generator.generate(meeting, output_path)
+        content = output_path.read_text()
+        
+        self.assertIn("**Total Action Items:** 3", content)
+        self.assertIn("**Completed:** 2", content)
+        self.assertIn("**Pending:** 1", content)
+        self.assertIn("**Decisions Made:** 1", content)
+
+
+# =============================================================================
+# FolderGenerator Tests
+# =============================================================================
+
+class TestFolderGenerator(unittest.TestCase):
+    """Tests for the FolderGenerator class."""
+    
+    def setUp(self) -> None:
+        """Set up test fixtures."""
+        self.generator = FolderGenerator()
+        self.temp_dir = tempfile.mkdtemp()
+    
+    def tearDown(self) -> None:
+        """Clean up temporary files."""
+        import shutil
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
+    
+    def test_generate_folder_structure(self) -> None:
+        """Test project folder creation."""
+        meeting = Meeting(
+            title="Test Meeting",
+            date=datetime(2026, 2, 17),
+            attendees=[Attendee(name="Alice")]
+        )
+        
+        base_path = Path(self.temp_dir)
+        result_path = self.generator.generate(meeting, base_path)
+        
+        self.assertTrue(result_path.exists())
+        self.assertTrue(result_path.is_dir())
+        
+        # Check default subdirectories
+        self.assertTrue((result_path / "documents").exists())
+        self.assertTrue((result_path / "documents" / "notes").exists())
+        self.assertTrue((result_path / "documents" / "reports").exists())
+        self.assertTrue((result_path / "tasks").exists())
+        self.assertTrue((result_path / "resources").exists())
+        self.assertTrue((result_path / "archive").exists())
+    
+    def test_generate_custom_structure(self) -> None:
+        """Test custom folder structure."""
+        meeting = Meeting(
+            title="Test Meeting",
+            date=datetime(2026, 2, 17)
+        )
+        
+        custom_structure = ["docs", "src", "tests", "assets"]
+        base_path = Path(self.temp_dir)
+        result_path = self.generator.generate(meeting, base_path, custom_structure)
+        
+        for subdir in custom_structure:
+            self.assertTrue((result_path / subdir).exists())
+    
+    def test_generate_project_readme(self) -> None:
+        """Test that project README is generated."""
+        meeting = Meeting(
+            title="Q1 Planning",
+            date=datetime(2026, 2, 17),
+            attendees=[Attendee(name="Alice"), Attendee(name="Bob")]
+        )
+        
+        base_path = Path(self.temp_dir)
+        result_path = self.generator.generate(meeting, base_path)
+        
+        readme_path = result_path / "README.md"
+        self.assertTrue(readme_path.exists())
+        
+        content = readme_path.read_text()
+        self.assertIn("# Q1 Planning", content)
+        self.assertIn("- Alice", content)
+        self.assertIn("- Bob", content)
+        self.assertIn("## Project Structure", content)
+    
+    def test_sanitize_folder_name(self) -> None:
+        """Test folder name sanitization."""
+        meeting = Meeting(
+            title="Meeting: Planning <2026>",
+            date=datetime(2026, 2, 17)
+        )
+        
+        base_path = Path(self.temp_dir)
+        result_path = self.generator.generate(meeting, base_path)
+        
+        # Folder name should be sanitized
+        folder_name = result_path.name
+        self.assertNotIn(":", folder_name)
+        self.assertNotIn("<", folder_name)
+        self.assertNotIn(">", folder_name)
+
+
+# =============================================================================
+# EmailDraftGenerator Tests
+# =============================================================================
+
+class TestEmailDraftGenerator(unittest.TestCase):
+    """Tests for the EmailDraftGenerator class."""
+    
+    def setUp(self) -> None:
+        """Set up test fixtures."""
+        self.generator = EmailDraftGenerator()
+    
+    def test_generate_emails(self) -> None:
+        """Test email draft generation."""
+        meeting = Meeting(
+            title="Q1 Planning",
+            date=datetime(2026, 2, 17),
+            attendees=[Attendee(name="Alice"), Attendee(name="Bob")],
+            action_items=[
+                ActionItem(description="Task 1", assignee="Alice"),
+                ActionItem(description="Task 2", assignee="Bob"),
+                ActionItem(description="Task 3", assignee="Alice"),
+            ]
+        )
+        
+        emails = self.generator.generate(meeting)
+        
+        # Should have: 1 for Alice, 1 for Bob, 1 summary = 3 total
+        self.assertEqual(len(emails), 3)
+    
+    def test_individual_email_content(self) -> None:
+        """Test individual assignee email content."""
+        meeting = Meeting(
+            title="Q1 Planning",
+            date=datetime(2026, 2, 17),
+            attendees=[Attendee(name="Alice")],
+            action_items=[
+                ActionItem(description="API integration", assignee="Alice", due_date=datetime(2026, 2, 20)),
+                ActionItem(description="Documentation", assignee="Alice"),
+            ]
+        )
+        
+        emails = self.generator.generate(meeting)
+        
+        # Find Alice's individual email
+        alice_email = None
+        for email in emails:
+            if "Hi Alice," in email and "Action Items from Q1 Planning" in email:
+                alice_email = email
+                break
+        
+        self.assertIsNotNone(alice_email)
+        self.assertIn("API integration", alice_email)
+        self.assertIn("Documentation", alice_email)
+        self.assertIn("Due: February 20, 2026", alice_email)
+    
+    def test_summary_email_content(self) -> None:
+        """Test summary email content."""
+        meeting = Meeting(
+            title="Q1 Planning",
+            date=datetime(2026, 2, 17),
+            attendees=[Attendee(name="Alice"), Attendee(name="Bob")],
+            discussion_points=["Point 1", "Point 2", "Point 3"],
+            action_items=[
+                ActionItem(description="Task 1", assignee="Alice"),
+            ],
+            decisions=[Decision(description="Decision 1")]
+        )
+        
+        emails = self.generator.generate(meeting)
+        
+        # Find summary email
+        summary_email = None
+        for email in emails:
+            if "Meeting Recap" in email:
+                summary_email = email
+                break
+        
+        self.assertIsNotNone(summary_email)
+        self.assertIn("Alice, Bob", summary_email)
+        self.assertIn("Discussion Summary", summary_email)
+        self.assertIn("Key Decisions", summary_email)
+        self.assertIn("Decision 1", summary_email)
+
+
+# =============================================================================
+# Integration Tests
+# =============================================================================
+
+class TestMeetingPipeline(unittest.TestCase):
+    """Integration tests for the complete pipeline."""
+    
+    def setUp(self) -> None:
+        """Set up test fixtures."""
+        self.temp_dir = tempfile.mkdtemp()
+        self.pipeline = MeetingPipeline(output_dir=Path(self.temp_dir) / "output")
+    
+    def tearDown(self) -> None:
+        """Clean up temporary files."""
+        import shutil
+        shutil.rmtree(self.temp_dir, ignore_errors=True)
+    
+    def test_full_pipeline(self) -> None:
+        """Test complete pipeline execution."""
+        result = self.pipeline.process(SAMPLE_MEETING_NOTES)
+        
+        # Check meeting was parsed
+        self.assertEqual(result.meeting.title, "Q1 Planning")
+        self.assertEqual(len(result.meeting.attendees), 3)
+        self.assertGreaterEqual(len(result.meeting.action_items), 3)
+        
+        # Check artifacts were generated
+        self.assertIsNotNone(result.calendar_path)
+        self.assertTrue(result.calendar_path.exists())
+        
+        self.assertIsNotNone(result.task_list_path)
+        self.assertTrue(result.task_list_path.exists())
+        
+        self.assertIsNotNone(result.folder_path)
+        self.assertTrue(result.folder_path.exists())
+        
+        self.assertGreaterEqual(len(result.email_drafts), 3)
+    
+    def test_pipeline_selective_generation(self) -> None:
+        """Test pipeline with selective artifact generation."""
+        result = self.pipeline.process(
+            SAMPLE_MEETING_NOTES,
+            generate_calendar=False,
+            generate_task_list=True,
+            generate_folder=False,
+            generate_emails=True
+        )
+        
+        self.assertIsNone(result.calendar_path)
+        self.assertIsNotNone(result.task_list_path)
+        self.assertIsNone(result.folder_path)
+        self.assertGreaterEqual(len(result.email_drafts), 1)
+    
+    def test_pipeline_empty_notes_raises(self) -> None:
+        """Test that empty notes raises ValidationError."""
+        with self.assertRaises(ValidationError):
+            self.pipeline.process("")
+        
+        with self.assertRaises(ValidationError):
+            self.pipeline.process("   \n\n  ")
+    
+    def test_pipeline_invalid_input_type(self) -> None:
+        """Test that invalid input types are handled."""
+        with self.assertRaises((ValidationError, MeetingParseError)):
+            self.pipeline.process(None)  # type: ignore
+
+
+# =============================================================================
+# Edge Case Tests
+# =============================================================================
+
+class TestEdgeCases(unittest.TestCase):
+    """Tests for edge cases and error conditions."""
+    
+    def test_meeting_with_no_attendees(self) -> None:
+        """Test parsing meeting without attendees."""
+        notes = """
+Meeting: Solo Planning
+Date: Feb 17, 2026
+
+Discussion:
+- Planning tasks
+
+Action Items:
+1. [ ] Task 1
+"""
+        parser = MeetingParser()
+        meeting = parser.parse(notes)
+        
+        self.assertEqual(meeting.title, "Solo Planning")
+        self.assertEqual(len(meeting.attendees), 0)
+    
+    def test_meeting_with_no_action_items(self) -> None:
+        """Test parsing meeting without action items."""
+        notes = """
+Meeting: Informational
+Date: Feb 17, 2026
+Attendees: Alice
+
+Discussion:
+- Status update
+"""
+        parser = MeetingParser()
+        meeting = parser.parse(notes)
+        
+        self.assertEqual(len(meeting.action_items), 0)
+    
+    def test_due_date_without_year(self) -> None:
+        """Test parsing due date without explicit year."""
+        notes = f"""
+Meeting: Test
+Date: Feb 17, 2026
+Attendees: Alice
+
+Action Items:
+1. [ ] Task 1 - Alice - Due Mar 15
+"""
+        parser = MeetingParser(default_year=2026)
+        meeting = parser.parse(notes)
+        
+        task = meeting.action_items[0]
+        self.assertIsNotNone(task.due_date)
+        self.assertEqual(task.due_date.month, 3)
+        self.assertEqual(task.due_date.day, 15)
+    
+    def test_action_item_from_discussion(self) -> None:
+        """Test that implied action items are extracted from discussion."""
+        notes = """
+Meeting: Test
+Date: Feb 17, 2026
+Attendees: Bob
+
+Discussion:
+- Bob will implement the API
+- Alice to review the design
+- Status is on track
+"""
+        parser = MeetingParser()
+        meeting = parser.parse(notes)
+        
+        # Should extract implied action items
+        bob_items = [i for i in meeting.action_items if i.assignee == "Bob"]
+        self.assertGreaterEqual(len(bob_items), 1)
+
+
+# =============================================================================
+# Main Entry Point
+# =============================================================================
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
