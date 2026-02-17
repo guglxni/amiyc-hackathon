@@ -1,0 +1,33 @@
+name: auto-organize-workspace
+description: |
+  Automatically organizes messy developer workspaces by categorizing files
+  into dated folders based on type (Images, Documents, Code, Archives).
+  Includes dry-run mode, content-based renaming, and scheduled cleanup.
+version: 1.0.0
+author: Aaryan (via multi-agent workflow)
+triggers:
+  - file_organized
+capabilities:
+  - file_management
+  - pattern_matching
+  - document_scanning
+inputs:
+  source_folder:
+    type: string
+    description: Path to folder to organize
+    required: true
+  dry_run:
+    type: boolean
+    description: Preview changes without applying
+    default: true
+  organize_by_date:
+    type: boolean
+    description: Create date-based subfolders
+    default: true
+outputs:
+  organized_files:
+    type: array
+    description: List of files organized with new paths
+  statistics:
+    type: object
+    description: Summary of organization operation

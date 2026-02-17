@@ -1,0 +1,61 @@
+# Cline Rules for AMIYC Hackathon Projects
+
+## Project Context
+- This is part of the "Automate Me If You Can" Hackathon (Feb 16-22, 2026)
+- Using multi-agent workflows with Cline CLI and Kimi Code CLI
+- Building Accomplish.ai automation skills
+
+## Coding Standards (from acquired skills)
+
+### Python Best Practices
+- Use `d[key]` for required dictionary keys (fail fast)
+- No mutable defaults in function parameters
+- Validate inputs early before expensive operations
+- Use specific exceptions with context (ValueError, TypeError, not generic Exception)
+- Chain exceptions with `raise ... from e` to preserve debug info
+- Handle partial failures in batch operations
+- Use Pydantic for complex validation
+- Place all imports at top of file (no inline imports)
+- Avoid explanatory comments for self-documenting code
+- Remove unnecessary else blocks after return/break/continue
+
+### Error Handling
+- Fail fast: validate at API boundaries
+- Include context in error messages (what, why, how to fix)
+- Use Python's built-in exception types appropriately
+- Create custom exceptions for domain-specific errors
+- Never let one bad item abort entire batch operations
+
+### Code Organization
+- Clean code principles (SOLID)
+- Single responsibility for functions/classes
+- Descriptive naming (no abbreviations)
+- Keep functions small and focused
+- Remove duplication, simplify modules
+
+## Multi-Agent Workflow Patterns
+
+### When Using Cline
+- Use `-m act` for trusted, repetitive tasks
+- Use `-m plan` for new features or risky operations
+- Use `-y` (yolo) mode only after verification
+- Use `--timeout 300` for longer operations
+- Attach context files with `-f`
+
+### When Using Kimi
+- Use `--print` for non-interactive documentation generation
+- Use `--session` to maintain context across commands
+- Use `--continue` to resume previous work
+- Use `--yolo` for automated workflows
+
+## Safety Rules
+**CRITICAL: No commits, pushes, or external actions without user consultation**
+- Stage changes but do not commit
+- Show diff before any git operation
+- Ask for explicit approval before: commits, pushes, PRs, branch creation
+
+## Documentation
+- Create README.md for every skill
+- Include usage examples
+- Document error handling
+- Add comments only when necessary (prefer self-documenting code)
