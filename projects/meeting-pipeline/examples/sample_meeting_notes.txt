@@ -1,0 +1,70 @@
+PROJECT KICKOFF — Q1 Marketing Campaign
+Date: January 15, 2026
+Attendees: Sarah Chen, Mike Rodriguez, Priya Patel, Alex Thompson
+
+OBJECTIVES
+Launch new product line with integrated digital campaign
+Target reach: 100K impressions in first month
+Budget approved: $50,000
+
+KEY DECISIONS
+✓ Campaign name: "Spring Forward 2026"
+✓ Launch date: March 1, 2026
+✓ Primary channels: Instagram, LinkedIn, Email
+✓ Design agency confirmed: Studio Bloom
+
+ACTION ITEMS
+
+Sarah Chen
+- Finalize campaign creative brief by January 22 (next Wednesday)
+- Schedule kickoff call with Studio Bloom by EOD tomorrow
+- Prepare budget breakdown spreadsheet by Friday, Jan 17
+
+Mike Rodriguez
+- Set up tracking infrastructure in Google Analytics by January 24
+- Create UTM parameter strategy document by January 20
+- Review competitor campaigns and present insights Tuesday, Jan 21
+
+Priya Patel
+- Draft email sequence (3 emails) by January 23
+- Coordinate with legal on compliance review — deadline January 27
+- Book photography session for product shots — February 5
+
+Alex Thompson
+- Update website landing page with campaign assets by February 15
+- Implement A/B testing framework by February 1
+- Prepare launch day monitoring schedule
+
+UPCOMING MILESTONES
+- January 20: UTM strategy review
+- January 24: Creative review meeting with Studio Bloom
+- February 1: A/B testing goes live
+- February 10: Final asset delivery from Studio Bloom
+- February 20: Soft launch (internal team)
+- March 1: PUBLIC LAUNCH 🚀
+- March 15: First performance review
+- March 31: Q1 campaign retrospective
+
+BUDGET ALLOCATION
+- Design & Creative: $20,000
+- Paid Media: $25,000
+- Photography & Assets: $3,000
+- Contingency: $2,000
+
+RISKS & MITIGATION
+- Risk: Studio Bloom delivery delays
+  Mitigation: Weekly check-ins, buffer time built into schedule
+- Risk: Legal compliance delays
+  Mitigation: Early submission (Jan 27 deadline for March 1 launch)
+- Risk: Budget overrun on paid media
+  Mitigation: Daily spend caps, weekly performance reviews
+
+NEXT MEETING
+Weekly sync every Tuesday at 10 AM starting January 21
+First checkpoint: January 20 to review UTM strategy
+
+NOTES
+- Everyone agreed on March 1 as firm launch date
+- Mike raised concern about tracking setup time — resolved, he'll start immediately
+- Priya needs access to Mailchimp — Alex to set up account by tomorrow
+- Campaign hashtag options: #SpringForward2026 or #Grow

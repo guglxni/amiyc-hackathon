@@ -1,0 +1,131 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Accomplish.ai//Meeting Pipeline//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:Spring Forward 2026 Campaign
+X-WR-TIMESTAMP:20260115T143000Z
+
+BEGIN:VEVENT
+UID:utm-strategy-review-20260120@accomplish.ai
+DTSTART;VALUE=DATE:20260120
+DTEND;VALUE=DATE:20260121
+SUMMARY:UTM Strategy Review
+DESCRIPTION:Review of UTM parameter strategy document prepared by Mike Rodriguez.\n\nAction Owner: Mike Rodriguez\nMeeting: Q1 Marketing Campaign Kickoff\nOriginal Note: UTM strategy review scheduled for January 20
+LOCATION:Conference Room B / Zoom
+STATUS:CONFIRMED
+PRIORITY:1
+CATEGORIES:MARKETING,STRATEGY
+END:VEVENT
+
+BEGIN:VEVENT
+UID:creative-brief-deadline-20260122@accomplish.ai
+DTSTART;VALUE=DATE:20260122
+DTEND;VALUE=DATE:20260122
+SUMMARY:DEADLINE: Finalize Campaign Creative Brief
+DESCRIPTION:Creative brief due for Spring Forward 2026 campaign.\n\nAction Owner: Sarah Chen\nContext: Finalize campaign creative brief by January 22 (next Wednesday)\nCampaign: Spring Forward 2026
+STATUS:CONFIRMED
+PRIORITY:1
+CATEGORIES:DEADLINE,DESIGN
+END:VEVENT
+
+BEGIN:VEVENT
+UID:creative-review-bloom-20260124@accomplish.ai
+DTSTART;VALUE=DATE:20260124
+DTEND;VALUE=DATE:20260124
+SUMMARY:Creative Review Meeting with Studio Bloom
+DESCRIPTION:Review creative concepts and direction with design agency Studio Bloom.\n\nCampaign: Spring Forward 2026\nAgency: Studio Bloom\nContext: Creative review meeting with Studio Bloom scheduled for January 24
+STATUS:CONFIRMED
+PRIORITY:1
+CATEGORIES:MEETING,DESIGN,REVIEW
+END:VEVENT
+
+BEGIN:VEVENT
+UID:ab-testing-live-20260201@accomplish.ai
+DTSTART;VALUE=DATE:20260201
+DTEND;VALUE=DATE:20260201
+SUMMARY:A/B Testing Goes Live
+DESCRIPTION:A/B testing framework implementation complete and active.\n\nAction Owner: Alex Thompson\nCampaign: Spring Forward 2026\nContext: A/B testing goes live on February 1
+STATUS:CONFIRMED
+PRIORITY:2
+CATEGORIES:TESTING,LAUNCH,DEVELOPMENT
+END:VEVENT
+
+BEGIN:VEVENT
+UID:photo-session-20260205@accomplish.ai
+DTSTART;VALUE=DATE:20260205
+DTEND;VALUE=DATE:20260205
+SUMMARY:Photography Session — Product Shots
+DESCRIPTION:Photography session for campaign product shots.\n\nAction Owner: Priya Patel\nCampaign: Spring Forward 2026\nContext: Book photography session for product shots on February 5
+STATUS:CONFIRMED
+PRIORITY:1
+CATEGORIES:PHOTOGRAPHY,ASSETS,PRODUCTION
+END:VEVENT
+
+BEGIN:VEVENT
+UID:final-assets-delivery-20260210@accomplish.ai
+DTSTART;VALUE=DATE:20260210
+DTEND;VALUE=DATE:20260210
+SUMMARY:DEADLINE: Final Asset Delivery from Studio Bloom
+DESCRIPTION:All creative assets due from Studio Bloom.\n\nAgency: Studio Bloom\nCampaign: Spring Forward 2026\nContext: Final asset delivery from Studio Bloom scheduled for February 10\nStatus: Critical path item for March 1 launch
+STATUS:CONFIRMED
+PRIORITY:1
+CATEGORIES:DEADLINE,DESIGN,DELIVERABLES
+END:VEVENT
+
+BEGIN:VEVENT
+UID:landing-page-update-20260215@accomplish.ai
+DTSTART;VALUE=DATE:20260215
+DTEND;VALUE=DATE:20260215
+SUMMARY:DEADLINE: Website Landing Page Update
+DESCRIPTION:Website landing page updated with campaign assets.\n\nAction Owner: Alex Thompson\nCampaign: Spring Forward 2026\nContext: Update website landing page with campaign assets by February 15
+STATUS:CONFIRMED
+PRIORITY:1
+CATEGORIES:DEADLINE,WEB,DEVELOPMENT
+END:VEVENT
+
+BEGIN:VEVENT
+UID:soft-launch-20260220@accomplish.ai
+DTSTART;VALUE=DATE:20260220
+DTEND;VALUE=DATE:20260220
+SUMMARY:Soft Launch (Internal Team)
+DESCRIPTION:Internal soft launch of Spring Forward 2026 campaign.\n\nCampaign: Spring Forward 2026\nAudience: Internal team only\nContext: Soft launch on February 20 for internal team review\nStatus: Final testing before public launch
+STATUS:CONFIRMED
+PRIORITY:2
+CATEGORIES:LAUNCH,INTERNAL,TESTING
+END:VEVENT
+
+BEGIN:VEVENT
+UID:public-launch-20260301@accomplish.ai
+DTSTART;VALUE=DATE:20260301
+DTEND;VALUE=DATE:20260301
+SUMMARY:🚀 PUBLIC LAUNCH — Spring Forward 2026
+DESCRIPTION:Official public launch of Spring Forward 2026 marketing campaign.\n\nCampaign: Spring Forward 2026\nLaunch Date: March 1, 2026\nChannels: Instagram, LinkedIn, Email\nBudget: $50,000\nContext: Campaign hashtag options: #SpringForward2026 or #Grow\nStatus: FIRM LAUNCH DATE
+STATUS:CONFIRMED
+PRIORITY:1
+CATEGORIES:LAUNCH,PUBLIC,MAJOR
+END:VEVENT
+
+BEGIN:VEVENT
+UID:performance-review-20260315@accomplish.ai
+DTSTART;VALUE=DATE:20260315
+DTEND;VALUE=DATE:20260315
+SUMMARY:First Performance Review
+DESCRIPTION:Review campaign performance metrics and KPIs.\n\nCampaign: Spring Forward 2026\nTarget: 100K impressions in first month\nContext: First performance review scheduled for March 15\nStatus: Check-in to assess progress toward goals
+STATUS:CONFIRMED
+PRIORITY:2
+CATEGORIES:REVIEW,ANALYTICS,MEETING
+END:VEVENT
+
+BEGIN:VEVENT
+UID:q1-retrospective-20260331@accomplish.ai
+DTSTART;VALUE=DATE:20260331
+DTEND;VALUE=DATE:20260331
+SUMMARY:Q1 Campaign Retrospective
+DESCRIPTION:End-of-quarter retrospective for Spring Forward 2026 campaign.\n\nCampaign: Spring Forward 2026\nContext: Q1 campaign retrospective on March 31\nTopics: What worked, what didn't, lessons learned
+STATUS:CONFIRMED
+PRIORITY:2
+CATEGORIES:RETROSPECTIVE,PLANNING,MEETING
+END:VEVENT
+
+END:VCALENDAR
