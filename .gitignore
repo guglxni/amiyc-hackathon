@@ -39,3 +39,6 @@ test_output/
 .cline/
 .cursor/
 .qwen/
+
+# OSS Contributions (separate repo)
+oss-contributions/
