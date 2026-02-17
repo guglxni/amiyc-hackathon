@@ -25,7 +25,7 @@ from __future__ import annotations
 
 import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from email.utils import formataddr
 from pathlib import Path
 from typing import Any
@@ -34,6 +34,11 @@ from typing import Any
 DEFAULT_TIMEZONE = "Asia/Kolkata"
 DEFAULT_ORGANIZER_NAME = "Meeting Pipeline"
 DEFAULT_ORGANIZER_EMAIL = "meetings@company.com"
+
+
+def _utc_now() -> datetime:
+    """Return current UTC datetime."""
+    return datetime.now(timezone.utc)
 
 
 @dataclass
@@ -49,7 +54,7 @@ class CalendarEvent:
     organizer_name: str = DEFAULT_ORGANIZER_NAME
     organizer_email: str = DEFAULT_ORGANIZER_EMAIL
     uid: str = field(default_factory=lambda: str(uuid.uuid4()))
-    created_at: datetime = field(default_factory=datetime.utcnow)
+    created_at: datetime = field(default_factory=_utc_now)
     sequence: int = 0
 
     def __post_init__(self) -> None:
@@ -166,7 +171,7 @@ class ICSGenerator:
         # Timestamps
         lines.append(f"DTSTAMP:{self._format_datetime(event.created_at)}")
         lines.append(f"CREATED:{self._format_datetime(event.created_at)}")
-        lines.append(f"LAST-MODIFIED:{self._format_datetime(datetime.utcnow())}")
+        lines.append(f"LAST-MODIFIED:{self._format_datetime(datetime.now(timezone.utc))}")
 
         # Event times - using UTC for maximum compatibility
         lines.append(f"DTSTART:{self._format_datetime(event.start_time)}")
@@ -265,7 +270,7 @@ class ICSGenerator:
             lines.append(f"UID:{event.uid}")
             lines.append(f"DTSTAMP:{self._format_datetime(event.created_at)}")
             lines.append(f"CREATED:{self._format_datetime(event.created_at)}")
-            lines.append(f"LAST-MODIFIED:{self._format_datetime(datetime.utcnow())}")
+            lines.append(f"LAST-MODIFIED:{self._format_datetime(datetime.now(timezone.utc))}")
             lines.append(f"DTSTART:{self._format_datetime(event.start_time)}")
             lines.append(f"DTEND:{self._format_datetime(event.end_time)}")
             lines.append(f"SEQUENCE:{event.sequence}")
@@ -577,7 +582,9 @@ def save_ics_to_file(
     """
     filepath = Path(filepath)
 
-    if filepath.is_dir():
+    # Check if filepath is an existing directory OR if filename is provided
+    # (implies filepath is intended as directory)
+    if filename or (filepath.exists() and filepath.is_dir()):
         if not filename:
             raise ValueError("filename required when filepath is a directory")
         filepath = filepath / filename
