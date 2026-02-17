@@ -40,5 +40,8 @@ test_output/
 .cursor/
 .qwen/
 
+# OSS contributions (separate repos)
+oss-contributions/
+
 # OSS Contributions (separate repo)
 oss-contributions/
